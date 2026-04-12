@@ -16,10 +16,3 @@ struct Card: Identifiable, Hashable {
         !rank.isEmpty && !suit.isEmpty
     }
 }
-
-/*
- struct Card: Hashable {
- let rank: String
- let suit: String
- }
- */
