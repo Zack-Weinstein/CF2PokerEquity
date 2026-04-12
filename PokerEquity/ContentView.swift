@@ -7,14 +7,18 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        NavigationStack {
+struct ContentView: View
+{
+    var body: some View
+    {
+        NavigationStack
+        {
             SetupView()
         }
     }
 }
 
-#Preview {
+#Preview
+{
     ContentView()
 }

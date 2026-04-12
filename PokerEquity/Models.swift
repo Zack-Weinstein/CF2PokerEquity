@@ -6,9 +6,20 @@
 //
 
 import Foundation
-import Foundation
 
-struct Card: Hashable {
-    let rank: String
-    let suit: String
+struct Card: Identifiable, Hashable {
+    let id = UUID()
+    var rank: String = ""
+    var suit: String = ""
+
+    var isFilled: Bool {
+        !rank.isEmpty && !suit.isEmpty
+    }
 }
+
+/*
+ struct Card: Hashable {
+ let rank: String
+ let suit: String
+ }
+ */
