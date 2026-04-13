@@ -16,3 +16,4 @@ struct Card: Identifiable, Hashable {
         !rank.isEmpty && !suit.isEmpty
     }
 }
+

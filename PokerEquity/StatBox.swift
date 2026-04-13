@@ -8,12 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct StatBox: View {
+struct StatBox: View
+{
     let title: String
     let value: String
 
-    var body: some View {
-        VStack(spacing: 8) {
+    var body: some View
+    {
+        VStack(spacing: 8)
+        {
             Text(title)
                 .font(.headline)
             Text(value)
