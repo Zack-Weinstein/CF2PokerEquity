@@ -13,16 +13,16 @@ struct SetupView: View
 {
 
     //Stores the number of players (default is 2)
-    @State private var numberOfPlayers: Int = 2
+    @AppStorage("numberOfPlayers") private var numberOfPlayers: Int = 2
 
     //Stores user input for buy-in amount
-    @State private var buyIn: String = ""
+    @AppStorage("buyIn") private var buyIn: String = ""
 
     //Stores user input for small blind
-    @State private var smallBlind: String = ""
+    @AppStorage("smallBlind") private var smallBlind: String = ""
 
     //Stores user input for big blind
-    @State private var bigBlind: String = ""
+    @AppStorage("bigBlind") private var bigBlind: String = ""
 
     var body: some View
     {

@@ -36,8 +36,8 @@ struct GameView: View
     @State private var showNewGameAlert: Bool = false
 
     //Rank choices shown in two rows
-    let topRanks = ["2", "3", "4", "5", "6", "7", "8", "9", "10"]
-    let bottomRanks = ["J", "Q", "K", "A"]
+    let topRanks = ["2", "3", "4", "5", "6", "7", "8"]
+    let bottomRanks = ["9", "10", "J", "Q", "K", "A"]
 
     //Suit choices
     let suits = ["♠", "♥", "♦", "♣"]
@@ -149,13 +149,15 @@ struct GameView: View
 
                     HStack(spacing: 8)
                     {
+                        Spacer()
                         ForEach(topRanks, id: \.self)
                         { rank in
                             rankButton(rank)
                         }
+                        Spacer()
                     }
 
-                    HStack(spacing: 16)
+                    HStack(spacing: 8)
                     {
                         Spacer()
                         ForEach(bottomRanks, id: \.self)
@@ -216,7 +218,8 @@ struct GameView: View
 
                 Spacer()
             }
-            .padding()
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
         }
         .navigationTitle("Live Equity")
         .navigationBarTitleDisplayMode(.inline)
@@ -367,22 +370,25 @@ struct GameView: View
         handStrength = 0.0
     }
 
-    //Recalculates equity and hand strength automatically.
-    //Right now this is placeholder logic until the real backend is connected.
     func recalculateEquity()
     {
-        let filledCards = cards.filter { $0.isFilled }.count
+        let playerCards = Array(cards[0..<2]).filter { $0.isFilled }
+        let boardCards  = Array(cards[2..<7]).filter { $0.isFilled }
 
-        if filledCards == 0
-        {
+        guard playerCards.count == 2 else {
             equity = 0.0
             handStrength = 0.0
             return
         }
 
-        //Temporary placeholder values
-        equity = Double.random(in: 15...85)
-        handStrength = Double.random(in: 20...95)
+        Task.detached(priority: .userInitiated) {
+            let e  = PokerEngine.calculateEquity(playerCards: playerCards, boardCards: boardCards, numberOfPlayers: numberOfPlayers)
+            let hs = PokerEngine.calculateHandStrength(playerCards: playerCards, boardCards: boardCards)
+            await MainActor.run {
+                equity       = e
+                handStrength = hs
+            }
+        }
     }
 
     //Returns red for hearts/diamonds and black for spades/clubs
